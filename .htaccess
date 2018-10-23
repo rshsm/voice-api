@@ -1,0 +1,17 @@
+# this snippet should be inserted into /var/www/html/.htaccess
+# rest.php should be located at /var/www/html/rest.php, soft link works also
+# rest/ should be located at /var/www/html/rest/, soft link works also
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^face/(.*) rest.php?/face/$1 [QSA]
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L,QSA]
+
+#301 from example.com/page.php to example.com/page
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*\.php\ HTTP/
+RewriteRule ^(.*)\.php$ /$1 [R=301,L]
+</IfModule>
